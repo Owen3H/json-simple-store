@@ -1,45 +1,61 @@
-const fs = require('fs').promises
+const fs = require('fs'),
+      { constants, promises: pfs } = fs
 
 class JSONStore {
-    filePath = ''
+    #defaultPath = '/default_store.json'
+    relativePath = ''
     absolutePath = ''
+
     data = {}
 
-    constructor(path='/default_store.json') {
-        this.filePath = path
+    constructor(path=this.#defaultPath) {
+        this.relativePath = path
         this.sync()
     }
 
-    path = () => process.cwd() + this.filePath
-    sync = async () => {
-        this.absolutePath = this.path()
-        
-        let exists = await fs.readFile(this.absolutePath).catch(() => {})
-        if (!exists) {
-            console.log('File does not exist, created a new one.')
-            await this.#save()
+    sync = async () => this.getFilePath().then(async fp => {
+        await this.write(this.data, fp)
+
+        this.data = require(fp)
+        return this.data
+    })
+
+    getFilePath = async () => {
+        let curPath = process.cwd() + this.relativePath,
+            curFile = await this.read(curPath)
+
+        if (!curFile) {
+            // try make one with same name
+            let saved = await this.write(this.data, curPath)
+            if (!saved) {
+                // if error, use default.
+                let defaultPath = process.cwd() + this.#defaultPath,
+                    hasFile = await this.read(curPath)
+
+                if (!hasFile) {
+                    await this.write(this.data, curPath)    
+                    console.log('Specified path is invalid! Using default file.')
+    
+                    return defaultPath
+                }
+            }
         }
 
-        this.data = require(this.absolutePath)
-        return this.data
+        return curPath
     }
 
+    empty = () => this.write({})
     add = (key, items) => this.data[key].push(items)
     get = async key => this.sync().then(data => data[key])
     set = async(key, value) => {
         this.data[key] = value
-        await this.#save()
+        await this.write(this.data)
     }
     
-    #save = () => this.overwrite(this.data)
-    empty = () => this.overwrite({})
-    overwrite = data => fs.writeFile(this.absolutePath, JSON.stringify(data), err => {
-        if (err) throw err
-        console.log(`Data written to file ${this.absolutePath}`)
-    })
+    exists = path => pfs.access(path, constants.F_OK).then(() => true).catch(() => false)
+
+    read = path => this.exists(path) ? pfs.readFile(path).catch(() => false) : false
+    write = async (data, path=this.absolutePath) => pfs.writeFile(path, JSON.stringify(data, null, '\t')).catch(() => false)
 }
 
-module.exports = {
-    JSONStore,
-    store: new JSONStore()
-}
+module.exports = JSONStore
