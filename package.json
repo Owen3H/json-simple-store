@@ -1,6 +1,6 @@
 {
   "name": "json-simple-store",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simple way of storing and modifying JSON files locally.",
   "main": "index.js",
   "scripts": {
