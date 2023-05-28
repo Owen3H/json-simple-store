@@ -11,21 +11,24 @@
     "url": "git+https://github.com/Owen3H/json-simple-store.git"
   },
   "keywords": [
-    "JSON",
+    "json",
     "store",
+    "storage",
     "db",
     "database",
-    "node",
-    "nodejs",
-    "simple"
+    "simple",
+    "file"
   ],
   "author": "Owen3H",
   "license": "GPL-3.0",
+  "homepage": "https://github.com/Owen3H/json-simple-store#readme",
   "bugs": {
     "url": "https://github.com/Owen3H/json-simple-store/issues"
   },
-  "homepage": "https://github.com/Owen3H/json-simple-store#readme",
+  "sponsor": {
+    "url": "https://github.com/sponsors/Owen3H"
+  },
   "engines": {
-    "node": ">=16"
+    "node": ">=12"
   }
 }

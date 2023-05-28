@@ -26,15 +26,15 @@ module.exports = class JSONStore {
     })
 
     #getFilePath = async () => {
-        let curPath = process.cwd() + this.relativePath,
-            curFile = await this.#read(curPath)
+        const curPath = process.cwd() + this.relativePath,
+              curFile = await this.#read(curPath)
 
         if (!curFile) {
-            // try make one with same name
-            let saved = await this.#write(this.#data, curPath)
+            // Try make one with the same name
+            const saved = await this.#write(this.#data, curPath)
             if (!saved) {
-                // if error, use default.
-                let defaultPath = process.cwd() + this.#defaultPath,
+                // Error occurred, fall back to default path.
+                const defaultPath = process.cwd() + this.#defaultPath,
                     hasFile = await this.#read(curPath)
 
                 if (!hasFile) {
@@ -53,13 +53,13 @@ module.exports = class JSONStore {
         return this.#sync().then(data => data[key]) 
     }
 
-    async set (key, value)  {
+    async set(key, value)  {
         this.#data[key] = value
         await this.#write(this.#data)
     }
 
     add(key, items) { this.#data[key].push(items) }
-    async empty() { this.#write({}) }
+    async empty() { await this.#write({}) }
 
     async exists(path) {
         // No error = accessed successfully
