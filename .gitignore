@@ -16,3 +16,9 @@ jspm_packages/
 # dotenv environment variable files
 .env
 test.js
+
+# Ignore all jsons except configs
+*.json
+
+!package.json
+!tsconfig.json
