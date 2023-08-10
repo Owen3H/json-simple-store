@@ -29,6 +29,7 @@
     "url": "https://github.com/sponsors/Owen3H"
   },
   "engines": {
-    "node": ">=12"
-  }
+    "node": ">=14"
+  },
+  "files": ["src", "package.json"]
 }
