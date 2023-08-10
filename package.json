@@ -1,6 +1,6 @@
 {
   "name": "json-simple-store",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Storing and modifying local JSON files made simple.",
   "main": "./src/store.js",
   "scripts": {
@@ -31,5 +31,8 @@
   "engines": {
     "node": ">=14"
   },
-  "files": ["src", "package.json"]
+  "files": [
+    "src",
+    "package.json"
+  ]
 }
