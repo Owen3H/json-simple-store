@@ -4,7 +4,8 @@
   "description": "Storing and modifying local JSON files made simple.",
   "main": "./src/store.js",
   "scripts": {
-    "test": "node ./src/test.js"
+    "test": "node ./src/test.js",
+    "prepublishOnly": "npm run test"
   },
   "repository": {
     "type": "git",
@@ -14,10 +15,10 @@
     "json",
     "store",
     "storage",
-    "db",
-    "database",
+    "cache",
     "simple",
-    "file"
+    "file",
+    "data"
   ],
   "author": "Owen3H",
   "license": "GPL-3.0",
@@ -34,5 +35,11 @@
   "files": [
     "src",
     "package.json"
-  ]
+  ],
+  "devDependencies": {
+    "@types/node": "^20.5.7"
+  },
+  "dependencies": {
+    "tslib": "^2.6.2"
+  }
 }
