@@ -5,7 +5,7 @@ import {
 } from 'fs'
 
 export default class JSONStore {
-    #data = {}
+    #data: Record<string, any> = {}
 
     #defaultPath = '/default_store.json'
     private relativePath = ''
@@ -57,12 +57,12 @@ export default class JSONStore {
 
     get = (key: string) => this.#sync().then(data => data[key]) 
 
-    async set(key: string, value: any)  {
+    set(key: string, value: any)  {
         this.#data[key] = value
-        await this.#write(this.#data)
+        return this.#write(this.#data)
     }
 
-    add(key: string, items) { this.#data[key].push(items) }
+    add(key: string, items: any) { this.#data[key].push(items) }
     empty = () => this.#write({})
 
     exists = async (path: PathLike) => {
@@ -75,10 +75,13 @@ export default class JSONStore {
     }
 
     #read = (path: PathLike) => this.exists(path) ? pfs.readFile(path).catch(() => false) : false
-    #write = async (data, path?: PathLike) => {
+    #write = async (data: any, path?: PathLike) => {
         if (!path) path = this.absolutePath
 
-        try { return pfs.writeFile(path, JSON.stringify(data, null, '\t')) }
+        try { 
+            await pfs.writeFile(path, JSON.stringify(data, null, '\t'))
+            return true
+        }
         catch(e) { return false }
     }
 }

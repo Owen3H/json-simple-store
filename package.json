@@ -1,11 +1,18 @@
 {
   "name": "json-simple-store",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "Storing and modifying local JSON files made simple.",
-  "main": "./src/store.js",
+  "type": "module",
+  "types": "./dist/store.d.ts",
+  "exports": {
+    "import": "./dist/store.js",
+    "node": "./dist/store.js",
+    "default": "./dist/store.cjs"
+  },
   "scripts": {
+    "build": "rimraf dist && tsc",
     "test": "vitest run --config ./vitest.config.ts",
-    "prepublishOnly": "bun run test"
+    "prepublishOnly": "bun run test && bun run build"
   },
   "repository": {
     "type": "git",
@@ -38,6 +45,7 @@
   ],
   "devDependencies": {
     "@types/node": "^22.0.0",
+    "rimraf": "^6.0.1",
     "vitest": "^1.6.0"
   },
   "dependencies": {
