@@ -32,16 +32,16 @@ export default class JSONStore {
     })
 
     #getFilePath = async () => {
-        const curPath = process.cwd() + this.relativePath,
-              curFile = await this.#read(curPath)
+        const curPath = process.cwd() + this.relativePath
+        const curFile = await this.#read(curPath)
 
         if (!curFile) {
             // Try make one with the same name
             const saved = await this.#write(this.#data, curPath)
             if (!saved) {
                 // Error occurred, fall back to default path.
-                const defaultPath = process.cwd() + this.#defaultPath,
-                    hasFile = await this.#read(curPath)
+                const defaultPath = process.cwd() + this.#defaultPath
+                const hasFile = await this.#read(curPath)
 
                 if (!hasFile) {
                     await this.#write(this.#data, curPath)    

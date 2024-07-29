@@ -4,8 +4,8 @@
   "description": "Storing and modifying local JSON files made simple.",
   "main": "./src/store.js",
   "scripts": {
-    "test": "node ./src/test.js",
-    "prepublishOnly": "npm run test"
+    "test": "vitest run --config ./vitest.config.ts",
+    "prepublishOnly": "bun run test"
   },
   "repository": {
     "type": "git",
@@ -30,16 +30,17 @@
     "url": "https://github.com/sponsors/Owen3H"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=16.8.0"
   },
   "files": [
     "src",
     "package.json"
   ],
   "devDependencies": {
-    "@types/node": "^20.5.7"
+    "@types/node": "^22.0.0",
+    "vitest": "^1.6.0"
   },
   "dependencies": {
-    "tslib": "^2.6.2"
+    "tslib": "^2.6.3"
   }
 }

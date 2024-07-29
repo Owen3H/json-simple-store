@@ -1,2 +1,2 @@
 # json-simple-store
-A simple way of storing and modifying JSON files locally. 
+A simple way of reading from and modifying JSON files locally.
