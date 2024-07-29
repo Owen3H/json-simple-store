@@ -12,22 +12,42 @@ suite('setup', () => {
     })
 })
 
-suite('primitives', async () => {
+suite('primitive', async () => {
+    const key = 'testNum'
     const num = 120373866342109
 
-    test('can set into file', async () => {
-        const err = await store.set('randomNum', num)
+    test('can set key', async () => {
+        const err = await store.set(key, num)
         expect(err).toBeTruthy()
     })
 
-    test('can read key/value back', async () => {
-        const result = await store.get('randomNum')
+    test('can read value back from key', async () => {
+        const result = await store.get(key)
 
         expect(result).toBeDefined()
         expect(result).toBe(num)
     })
 })
 
-suite.skip('object', async () => {
-    
+suite('object', async () => {
+        const key = 'testObj'
+    const obj = { 
+        randomNum: 120373866342109,
+        randomStr: "blehbleh69", 
+        nestedObj: {
+            randomBool: false
+        }
+    }
+
+    test('can set key', async () => {
+        const err = await store.set(key, obj)
+        expect(err).toBeTruthy()
+    })
+
+    test('can read value back from key', async () => {
+        const result = await store.get(key)
+
+        expect(result).toBeDefined()
+        expect(result).toEqual(obj)
+    })
 })
