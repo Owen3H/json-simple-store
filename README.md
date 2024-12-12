@@ -1,15 +1,20 @@
 # json-simple-store
-A simple KV store, where entries are both cached for current use, and stored in a JSON file as a database.
+A simple KV store, where entries are both cached for current use, and stored in a JSON file as a database.\
 **Note:** This type of local DB will not work on hosting solutions with ephemeral storage.
 
 While the library has a similar syntax to `Map`, it is actually a plain object (`Record<string, any>`) matching the structure of JSON.\
 This means you can **only use strings for keys**.
 
+## Why?
+This package was mainly made for myself - I'm sure there are more efficient solutions, but I could not find any that were both simple and not "in-memory".
+Many times I have needed a local database and so I just made this out of necessity for use in other projects.
+
 ## Installation
+`bun i json-simple-store`
 
 ## Creating a store
 Constructs a new store with an optional path.
-If no path is specified, it defaults to `default_store.json`
+If no path is specified, it defaults to `default_store.json`.
 
 > [!WARNING]
 > When a store is created with a path to a file that already exists, the new store is able to overwrite it!
@@ -20,21 +25,13 @@ const defaultStore = new JSONStore()
 ```
 
 ## Documentation
-**Set** (`set(key: string, value: any) => Promise<boolean>`)\
-Overwrites or adds a new entry to the file.\
-Returns a boolean indicating whether writing to the file succeeded.
-```ts
-const saved = await store.set('myObject', { test: { count: 69 } })
+**Get**\
+Signature: `get(key: string, skipCache?: boolean) => Promise<T>`
 
-// Not allowed!
-await store.set(420, { test: { count: 69 } })
-```
-
-**Get** `get(key: string, skipCache?: boolean) => Promise<T>`\
 Gets the value associated with the given key.
 
 By default, it will try to use the cached value to prevent reading from the file.\
-You can specify `true` as the last argument To skip the cache and always access the DB.
+You can specify `true` as the last argument to access the DB directly instead of utilizing the cache.
 
 ```ts
 interface MyObject {
@@ -48,7 +45,21 @@ const obj = await store.get<TestObj>('myObject')
 const { count, timestamp } = obj.test
 ```
 
-<!-- **Add** (`add(key: string), items: any => Promise<boolean>`)
+**Set**\
+Signature: `set(key: string, value: any) => Promise<boolean>`
+
+Overwrites or adds a new entry to the file.\
+Returns a boolean indicating whether writing to the file succeeded.
+```ts
+const saved = await store.set('myObject', { test: { count: 69 } })
+
+// Not allowed!
+await store.set(420, { test: { count: 69 } })
+```
+
+<!-- **Add**\n
+Signature: `add(key: string), items: any => Promise<boolean>`
+
 Appends given `items` to an 
 Like `set`, this also returns a boolean indicating whether the file write succeeded.
 ```ts
