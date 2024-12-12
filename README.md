@@ -66,14 +66,20 @@ Like `set`, this also returns a boolean indicating whether the file write succee
 
 ``` -->
 
-**Clear** (`clear() => Promise<boolean>`)\
+**Clear**\
+Signature: `clear() => Promise<boolean>`
+
 Clears every entry by writing an empty object to the file.\
 Like `set`, this also returns a boolean indicating whether the file write succeeded.
+<!--
 ```ts
 
 ```
+-->
 
-**Exists** (`exists() => Promise<boolean>`)\
+**Exists**\
+Signature: `exists() => Promise<boolean>`
+
 Whether the file at the absolute path (made when constructing the store) still exists.
 ```ts
 const store = new JSONStore('example_store.json')
